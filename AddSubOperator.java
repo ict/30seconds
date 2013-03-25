@@ -30,23 +30,11 @@ public class AddSubOperator extends Operator {
 		return prev.getOutput() + value;
 	}
 
-	public void setPredecessor(Operator prev) {
-		this.prev = prev;
-	}
-
 	public String toString() {
 		if (value < 0) {
 			return "" + (-value) + " abziehen";
 		} else {
 			return "" + value + " dazu";
-		}
-	}
-
-	public String toStringWithSolution() {
-		if (value < 0) {
-			return "" + (-value) + " abziehen: " + getOutput();
-		} else {
-			return "" + value + " dazu: " + getOutput();
 		}
 	}
 
