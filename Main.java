@@ -2,6 +2,15 @@ import java.util.*;
 
 public class Main {
 
+	private static boolean uniqueStep(Operator op, Operator prev, HashSet<Integer> previous) {
+		op.setPredecessor(prev);
+		int result = op.getOutput();
+		op.setPredecessor(null);
+
+		return previous.add(result);
+	}
+
+
 	public static void main(String[] args) {
 
 		Random rand = new Random();
@@ -14,11 +23,17 @@ public class Main {
 		operators.add(new HalfDoubleOperator(max, min, rand));
 		operators.add(new FractionOperator(max, min, rand));
 		operators.add(new SquareOperator(max, min, rand));
+		operators.add(new PercentageOperator(max, min, rand));
+
+		ArrayList<Operator> specialOperators = new ArrayList<Operator>(5);
+		specialOperators.add(new RootOperator(max, min, rand));
 
 
 		ArrayList<Operator> challenge = new ArrayList<Operator>(11);
 
-		int input = 8;
+		int input = rand.nextInt(10) + 1;
+		HashSet<Integer> intermediates = new HashSet<Integer>(10);
+		intermediates.add(input);
 		StartOperator start = new StartOperator(max, min, rand);
 		start.setValue(input);
 		challenge.add(start);
@@ -26,24 +41,46 @@ public class Main {
 		Operator prev = start;
 
 		for (int i = 0; i < 10; i++) {
-			Operator o;
+			Operator o = null;
 			int failCount = 0;
 
-			do {
-				int oi = rand.nextInt(operators.size());
-				o = operators.get(oi);
-
-				if (o.worksForInput(input)) {
-					if (failCount > 100000 || o.lastUsed != (i - 1) )
-					break;
+			// Try special operators
+			for (Operator s : specialOperators) {
+				if (s.worksForInput(input)) {
+					if (uniqueStep(s, prev, intermediates)) {
+						o = s;
+						specialOperators.remove(s);
+						operators.add(s);
+						break;
+					}
 				}
+				s.shuffle();
+			}
 
-				//System.out.println("" + i + " " + o.getClass() + ": " + o.lastUsed + " " + o.worksForInput(input) + " " + input);
-				failCount++;
+			if (o == null) { 
+				do {
 
-				o.shuffle();
+					// Try normal operators randomly
+					int oi = rand.nextInt(operators.size());
+					o = operators.get(oi);
 
-			} while (true);
+					if (o.worksForInput(input)) {
+
+						// Damn you, random generator
+						if (failCount > 100000)
+							break;
+						
+						// Normal, "good" case
+						if (uniqueStep(o, prev, intermediates) && o.lastUsed != (i - 1))
+							break;
+					}
+
+					failCount++;
+
+					o.shuffle();
+
+				} while (true);
+			}
 
 			o.lastUsed = i;
 			Operator usedOp = o.cloneThis();
@@ -53,8 +90,8 @@ public class Main {
 			prev = usedOp;
 			input = usedOp.getOutput();
 
-			for (int j = 0; j < operators.size(); j++) {
-				operators.get(j).shuffle();
+			for (Operator op : operators) {
+				op.shuffle();
 			}
 		}
 
