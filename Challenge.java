@@ -16,27 +16,31 @@ public class Challenge {
 	public Challenge(Difficulty diff) {
 
 		Random rand = new Random();
-		final int max = 101;
-		final int min = 0;
+		final int max = diff.max;
+		final int min = diff.min;
 
 		ArrayList<Operator> operators = new ArrayList<Operator>(10);
-		operators.add(new AddSubOperator(max, min, rand));
-		operators.add(new MultiplicationOperator(max, min, rand));
-		operators.add(new HalfDoubleOperator(max, min, rand));
-		operators.add(new FractionOperator(max, min, rand));
-		operators.add(new SquareOperator(max, min, rand));
-		operators.add(new PercentageOperator(max, min, rand));
+		operators.add(new AddSubOperator(diff, rand));
+		operators.add(new MultiplicationOperator(diff, rand));
+		operators.add(new HalfDoubleOperator(diff, rand));
+		operators.add(new FractionOperator(diff, rand));
+		operators.add(new SquareOperator(diff, rand));
+		operators.add(new PercentageOperator(diff, rand));
 
 		ArrayList<Operator> specialOperators = new ArrayList<Operator>(5);
-		specialOperators.add(new RootOperator(max, min, rand));
+		if (diff.level != Difficulty.Level.EASY) {
+			specialOperators.add(new RootOperator(diff, rand));
+		}
 
 
 		challenge = new ArrayList<Operator>(11);
 
-		int input = rand.nextInt(10) + 1;
+		int input = diff.getStartValue(rand);
+
 		HashSet<Integer> intermediates = new HashSet<Integer>(10);
 		intermediates.add(input);
-		StartOperator start = new StartOperator(max, min, rand);
+
+		StartOperator start = new StartOperator(diff, rand);
 		start.setValue(input);
 		challenge.add(start);
 
@@ -101,5 +105,9 @@ public class Challenge {
 		for (int i = 0; i < challenge.size(); i++) {
 			System.out.println(challenge.get(i).toStringWithSolution());
 		}
+	}
+
+	public ArrayList<Operator> getChallenge() {
+		return challenge;
 	}
 }

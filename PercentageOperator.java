@@ -5,13 +5,13 @@ public class PercentageOperator extends Operator {
 	private int factor;
 	private boolean add;
 	
-	public PercentageOperator(int maxValue, int minValue, Random rand) {
-		super(maxValue, minValue, rand);
+	public PercentageOperator(Difficulty diff, Random rand) {
+		super(diff, rand);
 		shuffle();
 	}
 
 	public Operator cloneThis() {
-		PercentageOperator n = new PercentageOperator(this.maxValue, this.minValue, this.rand);
+		PercentageOperator n = new PercentageOperator(this.diff, this.rand);
 		n.factor = this.factor;
 		n.add = this.add;
 		return n;

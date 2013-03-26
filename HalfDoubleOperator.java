@@ -4,13 +4,13 @@ public class HalfDoubleOperator extends Operator {
 
 	private boolean half;
 	
-	public HalfDoubleOperator(int maxValue, int minValue, Random rand) {
-		super(maxValue, minValue, rand);
+	public HalfDoubleOperator(Difficulty diff, Random rand) {
+		super(diff, rand);
 		shuffle();
 	}
 
 	public Operator cloneThis() {
-		HalfDoubleOperator n = new HalfDoubleOperator(this.maxValue, this.minValue, this.rand);
+		HalfDoubleOperator n = new HalfDoubleOperator(this.diff, this.rand);
 		n.half = this.half;
 		return n;
 	}
@@ -23,7 +23,7 @@ public class HalfDoubleOperator extends Operator {
 		if (half) {
 			return (in > 1) && (in % 2 == 0);
 		} else {
-			return in * 2 < maxValue;
+			return in * 2 < diff.max;
 		}
 	}
 

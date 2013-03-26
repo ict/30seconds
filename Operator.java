@@ -4,14 +4,12 @@ public abstract class Operator {
 
 	public int lastUsed = 42;
 
-	protected int maxValue;
-	protected int minValue;
+	protected Difficulty diff;
 	protected Random rand;
 	protected Operator prev;
 
-	public Operator(int maxValue, int minValue, Random rand) {
-		this.maxValue = maxValue;
-		this.minValue = minValue;
+	public Operator(Difficulty diff, Random rand) {
+		this.diff = diff;
 		this.rand = rand;
 	}
 

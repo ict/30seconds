@@ -5,13 +5,13 @@ public class FractionOperator extends Operator {
 	private int numerator;
 	private int denominator;
 	
-	public FractionOperator(int maxValue, int minValue, Random rand) {
-		super(maxValue, minValue, rand);
+	public FractionOperator(Difficulty diff, Random rand) {
+		super(diff, rand);
 		shuffle();
 	}
 
 	public Operator cloneThis() {
-		FractionOperator n = new FractionOperator(this.maxValue, this.minValue, this.rand);
+		FractionOperator n = new FractionOperator(this.diff, this.rand);
 		n.numerator = this.numerator;
 		n.denominator = this.denominator;
 		return n;

@@ -4,26 +4,26 @@ public class AddSubOperator extends Operator {
 
 	private int value;
 	
-	public AddSubOperator(int maxValue, int minValue, Random rand) {
-		super(maxValue, minValue, rand);
+	public AddSubOperator(Difficulty diff, Random rand) {
+		super(diff, rand);
 		shuffle();
 	}
 
 	public Operator cloneThis() {
-		AddSubOperator n = new AddSubOperator(this.maxValue, this.minValue, this.rand);
+		AddSubOperator n = new AddSubOperator(this.diff, this.rand);
 		n.value = this.value;
 		return n;
 	}
 
 	public void shuffle() {
-		value = rand.nextInt((int)(maxValue / 3)) + 1;
+		value = rand.nextInt((int)(diff.max / 3)) + 1;
 		if (rand.nextBoolean()) {
 			value = -value;
 		}
 	}
 
 	public boolean worksForInput(int in) {
-		return in + value < maxValue && in + value > minValue;
+		return in + value < diff.max && in + value > diff.min;
 	}
 
 	public int getOutput() {

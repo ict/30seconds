@@ -2,13 +2,13 @@ import java.util.Random;
 
 public class SquareOperator extends Operator {
 
-	public SquareOperator(int maxValue, int minValue, Random rand) {
-		super(maxValue, minValue, rand);
+	public SquareOperator(Difficulty diff, Random rand) {
+		super(diff, rand);
 		shuffle();
 	}
 
 	public Operator cloneThis() {
-		return new SquareOperator(this.maxValue, this.minValue, this.rand);
+		return new SquareOperator(this.diff, this.rand);
 	}
 
 	public void shuffle() {
@@ -16,7 +16,7 @@ public class SquareOperator extends Operator {
 	}
 
 	public boolean worksForInput(int in) {
-		return in * in < maxValue;
+		return in * in < diff.max;
 	}
 
 	public int getOutput() {

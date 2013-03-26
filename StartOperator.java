@@ -4,13 +4,13 @@ public class StartOperator extends Operator {
 
 	private int value;
 	
-	public StartOperator(int maxValue, int minValue, Random rand) {
-		super(maxValue, minValue, rand);
+	public StartOperator(Difficulty diff, Random rand) {
+		super(diff, rand);
 		shuffle();
 	}
 
 	public Operator cloneThis() {
-		StartOperator n = new StartOperator(this.maxValue, this.minValue, this.rand);
+		StartOperator n = new StartOperator(this.diff, this.rand);
 		n.value = this.value;
 		return n;
 	}

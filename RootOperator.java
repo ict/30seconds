@@ -2,13 +2,13 @@ import java.util.Random;
 
 public class RootOperator extends Operator {
 
-	public RootOperator(int maxValue, int minValue, Random rand) {
-		super(maxValue, minValue, rand);
+	public RootOperator(Difficulty diff, Random rand) {
+		super(diff, rand);
 		//shuffle();
 	}
 
 	public Operator cloneThis() {
-		return new RootOperator(this.maxValue, this.minValue, this.rand);
+		return new RootOperator(this.diff, this.rand);
 	}
 
 	public void shuffle() {
@@ -18,7 +18,7 @@ public class RootOperator extends Operator {
 	public boolean worksForInput(int in) {
 		// test if Square Root is an Integer
 		int sqrt = (int) Math.sqrt(in);
-		return sqrt * sqrt == in;
+		return sqrt * sqrt == in && sqrt * sqrt < diff.max;
 	}
 
 	public int getOutput() {
