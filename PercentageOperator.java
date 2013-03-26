@@ -26,7 +26,7 @@ public class PercentageOperator extends Operator {
 	public boolean worksForInput(int in) {
 		// find a fraction;
 		factor = 0;
-		int[] factors = {2, 4, 5};
+		int[] factors = {2, 4, 5, 10, 20};
 		for (int i : factors) {
 			if (in % i == 0)
 				factor = i;

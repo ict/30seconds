@@ -1,6 +1,8 @@
 import java.util.*;
 
-public class Main {
+public class Challenge {
+
+	private ArrayList<Operator> challenge;
 
 	private static boolean uniqueStep(Operator op, Operator prev, HashSet<Integer> previous) {
 		op.setPredecessor(prev);
@@ -11,7 +13,7 @@ public class Main {
 	}
 
 
-	public static void main(String[] args) {
+	public Challenge(Difficulty diff) {
 
 		Random rand = new Random();
 		final int max = 101;
@@ -29,7 +31,7 @@ public class Main {
 		specialOperators.add(new RootOperator(max, min, rand));
 
 
-		ArrayList<Operator> challenge = new ArrayList<Operator>(11);
+		challenge = new ArrayList<Operator>(11);
 
 		int input = rand.nextInt(10) + 1;
 		HashSet<Integer> intermediates = new HashSet<Integer>(10);
@@ -95,6 +97,7 @@ public class Main {
 			}
 		}
 
+		// Just for debugging
 		for (int i = 0; i < challenge.size(); i++) {
 			System.out.println(challenge.get(i).toStringWithSolution());
 		}
