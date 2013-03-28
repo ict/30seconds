@@ -83,7 +83,7 @@ public class ChallengeSheet {
 
 		System.out.println("\\begin{turn}{180}");
 		System.out.format("Lösungen: %d, %d, %d\n", solutions[0], solutions[1], solutions[2]);
-		System.out.println("\\end{turn}{180}");
+		System.out.println("\\end{turn}");
 
 
 		for (String s : tail) {
