@@ -57,4 +57,8 @@ public class PercentageOperator extends Operator {
 	public String toString() {
 		return "" + (100/factor) + (add ? "% mehr" : "% weniger");
 	}
+
+	public String toTexString() {
+		return toString().replaceAll("%", "\\\\%");
+	}
 }

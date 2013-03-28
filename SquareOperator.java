@@ -24,7 +24,7 @@ public class SquareOperator extends Operator {
 	}
 
 	public String toString() {
-		return "mit sich selbst multiplizieren";
+		return "hoch 2";
 	}
 
 }

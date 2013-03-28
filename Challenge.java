@@ -102,12 +102,16 @@ public class Challenge {
 		}
 
 		// Just for debugging
-		for (int i = 0; i < challenge.size(); i++) {
-			System.out.println(challenge.get(i).toStringWithSolution());
-		}
+		// for (int i = 0; i < challenge.size(); i++) {
+		// 	System.out.println(challenge.get(i).toStringWithSolution());
+		// }
 	}
 
 	public ArrayList<Operator> getChallenge() {
 		return challenge;
+	}
+
+	public int getSolution() {
+		return challenge.get(challenge.size() - 1).getOutput();
 	}
 }

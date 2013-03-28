@@ -26,4 +26,7 @@ public abstract class Operator {
 	public String toStringWithSolution() {
 		return toString() + ": " + getOutput();
 	}
+	public String toTexString() {
+		return toString();
+	}
 }

@@ -41,5 +41,9 @@ public class StartOperator extends Operator {
 	public String toStringWithSolution() {
 		return "" + value;
 	}
+
+	public String toTexString() {
+		return "\\cellcolor{black}\\textcolor{white}{\\Large{\\textbf{{" + value + "}}}}";
+	}
 }
 
