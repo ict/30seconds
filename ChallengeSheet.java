@@ -1,5 +1,4 @@
-import java.util.*;
-import java.nio.file.*;
+import java.util.*; import java.nio.file.*;
 import java.nio.charset.*;
 
 public class ChallengeSheet {
@@ -43,6 +42,8 @@ public class ChallengeSheet {
 		List<String> chHead = null;
 		List<String> chTail = null;
 
+		StringBuilder sb = new StringBuilder();
+
 		try {
 			Path headP = FileSystems.getDefault().getPath("tex", "head.tex");
 			Path tailP = FileSystems.getDefault().getPath("tex", "tail.tex");
@@ -58,36 +59,63 @@ public class ChallengeSheet {
 			e.printStackTrace();
 		}
 
-		// Print Document
+		// Build Document
 
 		for (String s : head) {
-			System.out.println(s);
+			sb.append(s);
+			sb.append("\n");
 		}
 
 		for (Challenge c : cs) {
 			
 			for (String s : chHead) {
-				System.out.println(s);
+				sb.append(s);
+				sb.append("\n");
 			}
 
 			for (Operator o : c.getChallenge()) {
-				System.out.print(o.toTexString());
-				System.out.print(" & ");
+				sb.append(o.toTexString());
+				sb.append(" & ");
 			}
-			System.out.println("\\textcolor{white}{?} \\\\");
+			sb.append("\\textcolor{white}{?} \\\\");
 
 			for (String s : chTail) {
-				System.out.println(s);
+				sb.append(s);
+				sb.append("\n");
 			}
 		}
 
-		System.out.println("\\begin{turn}{180}");
-		System.out.format("Lösungen: %d, %d, %d\n", solutions[0], solutions[1], solutions[2]);
-		System.out.println("\\end{turn}");
+		sb.append("\\begin{turn}{180}");
+		sb.append("Lösungen: ");
+		sb.append(solutions[0]);
+		sb.append(", ");
+		sb.append(solutions[1]);
+		sb.append(", ");
+		sb.append(solutions[2]);
+		sb.append("\n\\end{turn}");
 
 
 		for (String s : tail) {
-			System.out.println(s);
+			sb.append(s);
+			sb.append("\n");
+		}
+
+		// Run pdflatex
+		final Path tempDir = Files.createTempDirectory("30seconds");
+		File log = new File("/dev/null");
+		ProcessBuilder pb = new ProcessBuilder("pdflatex", "-jobname", "30seconds");
+		pb.directory(tempDir.toFile());
+		pb.redirectErrorStream(true);
+		pb.redirectOutputStream(Redirect.appendTo(log));
+
+		try {
+			Process p = pb.start();
+			OutputStream out = p.getOutputStream();
+			out.write(sb.toString().getBytes());
+			out.flush(); out.close();
+			p.waitFor();
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 	}
 }
