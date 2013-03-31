@@ -1,9 +1,11 @@
-import java.util.*; import java.nio.file.*;
+import java.util.*; 
+import java.nio.file.*;
 import java.nio.charset.*;
+import java.io.*;
 
 public class ChallengeSheet {
 
-	public static void makeSheet() {
+	public static void makeSheet(String outputFileName) {
 
 		Difficulty[] ds = {
 			Difficulty.getEasyDifficulty(), 
@@ -100,20 +102,31 @@ public class ChallengeSheet {
 			sb.append("\n");
 		}
 
-		// Run pdflatex
-		final Path tempDir = Files.createTempDirectory("30seconds");
-		File log = new File("/dev/null");
-		ProcessBuilder pb = new ProcessBuilder("pdflatex", "-jobname", "30seconds");
-		pb.directory(tempDir.toFile());
-		pb.redirectErrorStream(true);
-		pb.redirectOutputStream(Redirect.appendTo(log));
+		Path tempDir = null;
 
+		// Run pdflatex
 		try {
+
+			tempDir = Files.createTempDirectory("30seconds");
+			File log = new File("/dev/null");
+			ProcessBuilder pb = new ProcessBuilder("pdflatex", "-jobname", "30seconds");
+			pb.directory(tempDir.toFile());
+			pb.redirectErrorStream(true);
+			pb.redirectOutput(ProcessBuilder.Redirect.appendTo(log));
+
 			Process p = pb.start();
 			OutputStream out = p.getOutputStream();
 			out.write(sb.toString().getBytes());
 			out.flush(); out.close();
 			p.waitFor();
+
+			final Path filename = FileSystems.getDefault().getPath("30seconds.pdf");
+			final Path pdf = tempDir.resolve(filename);
+
+			final Path destination = FileSystems.getDefault().getPath(outputFileName);
+
+			Files.move(pdf, destination);
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

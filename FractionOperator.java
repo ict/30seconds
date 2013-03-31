@@ -62,4 +62,15 @@ public class FractionOperator extends Operator {
 			return "" + numerator + " / " + denominator + " davon";
 		}
 	}
+
+	public String toTexString() {
+		if (numerator == 1) {
+			if (denominator == 2) 
+				return "halbieren";
+			return "durch " + denominator;
+
+		} else {
+			return "$\\frac{" + numerator + "}{" + denominator + "}$ "+ " davon";
+		}
+	}
 }

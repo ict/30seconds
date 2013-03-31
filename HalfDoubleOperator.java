@@ -23,7 +23,7 @@ public class HalfDoubleOperator extends Operator {
 		if (half) {
 			return (in > 1) && (in % 2 == 0);
 		} else {
-			return in * 2 < diff.max;
+			return in * 2 < diff.max && in * 2 > diff.min;
 		}
 	}
 

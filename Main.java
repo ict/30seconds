@@ -1,5 +1,7 @@
 public class Main {
 	public static void main(String[] args) {
-		ChallengeSheet.makeSheet();
+		for (int i = 0; i < 10; i++) {
+			ChallengeSheet.makeSheet(i + ".pdf");
+		}
 	}
 }

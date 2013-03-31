@@ -4,6 +4,7 @@ public class PercentageOperator extends Operator {
 
 	private int factor;
 	private boolean add;
+	private boolean plain;
 	
 	public PercentageOperator(Difficulty diff, Random rand) {
 		super(diff, rand);
@@ -18,8 +19,10 @@ public class PercentageOperator extends Operator {
 	}
 
 	public void shuffle() {
-		// We need to cheat for this operator to be useful, so no real shuffling here
-		add = true;
+		plain = diff.level == Difficulty.Level.HARD ? false : true;
+		add = rand.nextBoolean();
+
+		// The factor needs to be cheated to work
 		factor = 0;
 	}
 
@@ -39,13 +42,16 @@ public class PercentageOperator extends Operator {
 			return false;
 		}
 
-		add = rand.nextBoolean();
 
 		return true;
 	}
 
 	public int getOutput() {
 		int in = prev.getOutput();
+
+		if (plain) {
+			return in / factor;
+		}
 
 		if (add) {
 			return in + (in / factor);
@@ -55,6 +61,9 @@ public class PercentageOperator extends Operator {
 	}
 
 	public String toString() {
+		if (plain) 
+			return "" + (100/factor) + "% davon";
+
 		return "" + (100/factor) + (add ? "% mehr" : "% weniger");
 	}
 
