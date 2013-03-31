@@ -6,11 +6,13 @@ public class RootOperator extends Operator {
 
 	public RootOperator(Difficulty diff, Random rand) {
 		super(diff, rand);
-		//shuffle();
+		shuffle();
 	}
 
 	public Operator cloneThis() {
-		return new RootOperator(this.diff, this.rand);
+		RootOperator op = new RootOperator(this.diff, this.rand);
+		op.which = which;
+		return op;
 	}
 
 	public void shuffle() {
